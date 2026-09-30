@@ -1,0 +1,268 @@
+.wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 50% 44%, rgba(255, 40, 30, 0.045), transparent 28%),
+    radial-gradient(circle at 50% 80%, rgba(255, 255, 255, 0.03), transparent 40%),
+    #0c0d0d;
+  isolation: isolate;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+.noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 3;
+  background-image: repeating-radial-gradient(
+    circle at 20% 40%,
+    rgba(255, 255, 255, 0.2) 0,
+    transparent 1px,
+    transparent 4px
+  );
+  background-size: 8px 8px;
+  mix-blend-mode: overlay;
+}
+
+.scanlines {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0.16;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 3px,
+    rgba(255, 255, 255, 0.035) 4px
+  );
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.75), transparent 17%, transparent 83%, rgba(0, 0, 0, 0.65)),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.65), transparent 28%);
+}
+
+.hud {
+  position: absolute;
+  top: 12%;
+  right: 16px;
+  width: min(230px, calc(50% - 148px));
+  z-index: 10;
+  padding: 18px 19px;
+  border: 1px solid rgba(255, 67, 60, 0.32);
+  border-radius: 5px;
+  background: rgba(9, 10, 10, 0.46);
+  backdrop-filter: blur(6px);
+  box-shadow:
+    0 0 40px rgba(255, 32, 25, 0.035),
+    inset 0 0 30px rgba(255, 32, 25, 0.02);
+  font-family: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+  text-transform: uppercase;
+}
+
+.hud::before,
+.hud::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}
+
+.hud::before {
+  top: -1px;
+  left: -1px;
+  border-top: 1px solid rgba(255, 48, 42, 0.95);
+  border-left: 1px solid rgba(255, 48, 42, 0.95);
+}
+
+.hud::after {
+  bottom: -1px;
+  right: -1px;
+  border-right: 1px solid rgba(255, 48, 42, 0.95);
+  border-bottom: 1px solid rgba(255, 48, 42, 0.95);
+}
+
+.hudTop {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 15px;
+  color: rgba(255, 255, 255, 0.67);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-radius: 1px;
+  background: #ff302b;
+  box-shadow:
+    0 0 8px #ff302b,
+    0 0 18px rgba(255, 48, 43, 0.7);
+  animation: blink 1.4s infinite;
+}
+
+.hudRows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hudRows p {
+  margin: 0;
+  opacity: 0;
+  transform: translateX(-6px);
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 10px;
+  line-height: 1.3;
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
+}
+
+.hudRows .visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.delay1 {
+  transition-delay: 0.3s !important;
+}
+
+.delay2 {
+  transition-delay: 0.65s !important;
+}
+
+.delay3 {
+  transition-delay: 1s !important;
+}
+
+.delay4 {
+  transition-delay: 1.35s !important;
+}
+
+.hudRows .ready {
+  color: #ff443e;
+  font-weight: 600;
+  text-shadow: 0 0 11px rgba(255, 40, 35, 0.55);
+}
+
+.cornerTL,
+.cornerBR {
+  position: absolute;
+  width: 90px;
+  height: 70px;
+  z-index: 8;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.cornerTL {
+  top: 12%;
+  left: 9%;
+  border-left: 1px solid rgba(255, 255, 255, 0.6);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.cornerBR {
+  bottom: 11%;
+  right: 7%;
+  border-right: 1px solid rgba(255, 255, 255, 0.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.microTextLeft,
+.microTextBottom {
+  position: absolute;
+  z-index: 9;
+  color: rgba(255, 255, 255, 0.18);
+  font-family: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  pointer-events: none;
+}
+
+.microTextLeft {
+  left: 4%;
+  top: 44%;
+}
+
+.microTextBottom {
+  right: 5%;
+  bottom: 4%;
+}
+
+@keyframes blink {
+  0%,
+  80%,
+  100% {
+    opacity: 1;
+  }
+
+  86% {
+    opacity: 0.25;
+  }
+}
+
+@media (max-width: 850px) {
+  .hud {
+    width: 220px;
+    top: auto;
+    bottom: 5%;
+    right: 4%;
+    padding: 14px;
+  }
+
+  .hudTop {
+    font-size: 9px;
+  }
+
+  .hudRows p {
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 550px) {
+  .hud {
+    width: calc(100% - 40px);
+    left: 20px;
+    right: 20px;
+    bottom: 18px;
+  }
+
+  .microTextLeft,
+  .microTextBottom {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .statusDot {
+    animation: none;
+  }
+
+  .hudRows p {
+    transition: none;
+  }
+}
